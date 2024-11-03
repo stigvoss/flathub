@@ -44,8 +44,7 @@ jobs:
 
       - name: Setup GPG signing
         run:  |
-          export GPG_TTY=$(tty)
-          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --import
+          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --yes --import
 
         # - uses: flatpak/flatpak-github-actions/flatpak-builder@v6.3
       #   with:
