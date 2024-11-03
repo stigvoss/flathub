@@ -54,9 +54,13 @@ jobs:
       #     gpg-sign: ${{ secrets.GPG_KEY_ID }}
 
       - name: Add Flathub repo for dependencies
-        run: flatpak remote-add --user --if-not-exists flathub ${{ env.RUNTIME_REPO }}
+        run: |
+          export GPG_TTY=$(tty)
+          flatpak remote-add --user --if-not-exists flathub ${{ env.RUNTIME_REPO }}
       - name: Build and install build deps
-        run: flatpak-builder build --user --install-deps-from=flathub --gpg-sign=${{ secrets.GPG_KEY_ID }} --disable-rofiles-fuse --disable-updates --force-clean --repo=repo ${{ env.MANIFEST_PATH }}
+        run: |
+          export GPG_TTY=$(tty)
+          flatpak-builder build --user --install-deps-from=flathub --gpg-sign=${{ secrets.GPG_KEY_ID }} --disable-rofiles-fuse --disable-updates --force-clean --repo=repo ${{ env.MANIFEST_PATH }}
       - name: Generate a Flatpak bundle
         run: |
           export GPG_TTY=$(tty)
